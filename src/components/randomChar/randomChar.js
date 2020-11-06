@@ -10,7 +10,8 @@ export default class RandomChar extends Component {
 
     state = {
         char: {},
-        loading: true
+        loading: true,
+        error: false
         // name: null,   // в класс gotService добавили методы трансформации
         // gender: null,
         // born: null,
