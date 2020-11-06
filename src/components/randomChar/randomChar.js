@@ -1,27 +1,21 @@
 import React, { Component } from 'react';
 import './randomChar.css';
 import gotService from '../../services/gotService';
-import Spinner from '../spinner/';
-import ErrorMessage from '../error';
+import Spinner from '../spinner';
+import ErrorMessage from '../errorMessage';
 
 export default class RandomChar extends Component {
 
     gotService = new gotService();
-
     state = {
         char: {},
         loading: true,
         error: false
-        // name: null,   // в класс gotService добавили методы трансформации
-        // gender: null,
-        // born: null,
-        // died: null,
-        // culture: null
     }
 
     componentDidMount() {
         this.updateChar();
-        this.timerId = setInterval(this.updateChar, 1500);
+        this.timerId = setInterval(this.updateChar, 15000);
     }
 
     componentWillUnmount() {
@@ -31,8 +25,7 @@ export default class RandomChar extends Component {
     onCharLoaded = (char) => {
         this.setState({
             char,
-            loading: false,
-            error: false
+            loading: false
         })
     }
 
@@ -44,15 +37,13 @@ export default class RandomChar extends Component {
     }
 
     updateChar = () => {
-        const id = Math.floor(Math.random() * 140 + 25); // диапазон с 25 по 140
-        // const id = 1323000000;
+        const id = Math.floor(Math.random() * 140 + 25); //25-140
         this.gotService.getCharacter(id)
             .then(this.onCharLoaded)
             .catch(this.onError);
     }
 
     render() {
-        console.log('render')
         const { char, loading, error } = this.state;
 
         const errorMessage = error ? <ErrorMessage /> : null;
@@ -68,7 +59,6 @@ export default class RandomChar extends Component {
         );
     }
 }
-
 const View = ({ char }) => {
     const { name, gender, born, died, culture } = char;
     return (
